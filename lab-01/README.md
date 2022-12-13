@@ -42,8 +42,9 @@ In this Pyspark script, we will calculate KPIs by customer off of the curated te
 In cloud shell, declare the following variables after substituting with yours. Its useful to persist the variables in a textpad of some kind or http://gist.github.com for ease.
 
 ```
-PROJECT_ID=YOUR_PROJECT_ID
-PROJECT_NBR=YOUR_PROJECT_NUMBER
+PROJECT_ID=`gcloud config list --format "value(core.project)" 2>/dev/null`
+PROJECT_NBR=`gcloud projects describe $PROJECT_ID | grep projectNumber | cut -d':' -f2 |  tr -d "'" | xargs`
+PROJECT_NAME=`gcloud projects describe ${PROJECT_ID} | grep name | cut -d':' -f2 | xargs`
 LOCATION=us-central1
 VPC_NM=VPC=s8s-vpc-$PROJECT_NBR
 SPARK_SERVERLESS_SUBNET=spark-snet
